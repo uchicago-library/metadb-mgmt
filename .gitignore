@@ -1,0 +1,10 @@
+# Config files with credentials
+*.conf
+!config.conf.template
+
+# Editor backups
+*~
+
+# Generated output
+*.csv
+*.txt
