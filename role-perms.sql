@@ -17,6 +17,7 @@ BEGIN
         JOIN LATERAL aclexplode(COALESCE(n.nspacl, acldefault('n', n.nspowner))) a ON true
         JOIN pg_roles r ON r.oid = a.grantee
         WHERE n.nspname NOT IN ('pg_catalog', 'information_schema')
+            AND n.nspname NOT LIKE 'pg_%'
     ) r;
 
     EXECUTE 'DROP TABLE IF EXISTS schema_privilege_pivot';
@@ -33,6 +34,7 @@ BEGIN
             JOIN LATERAL aclexplode(COALESCE(n.nspacl, acldefault(''n'', n.nspowner))) a ON true
             JOIN pg_roles r ON r.oid = a.grantee
             WHERE n.nspname NOT IN (''pg_catalog'', ''information_schema'')
+                AND n.nspname NOT LIKE ''pg_%''
             GROUP BY n.nspname, r.rolname
         ) sub
         GROUP BY schema_name
